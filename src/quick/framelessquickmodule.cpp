@@ -50,7 +50,7 @@
 
 FRAMELESSHELPER_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcQuickModule, "wangwenx190.framelesshelper.quick.quickmodule")
+Q_LOGGING_CATEGORY(lcQuickModule, "qeist.framelesshelper.quick.quickmodule")
 
 #ifdef FRAMELESSHELPER_QUICK_NO_DEBUG_OUTPUT
 #  define INFO QT_NO_QDEBUG_MACRO()
@@ -78,7 +78,7 @@ void FramelessHelper::Quick::registerTypes(QQmlEngine *engine)
     }
     reg = true;
 
-    // @uri org.wangwenx190.FramelessHelper
+    // @uri org.qeist.FramelessHelper
     qmlRegisterUncreatableType<QuickGlobal>(QUICK_URI_FULL, "FramelessHelperConstants",
         FRAMELESSHELPER_STRING_LITERAL("The FramelessHelperConstants namespace is not creatable, you can only use it to access it's enums."));
     qmlRegisterSingletonType<FramelessQuickUtils>(QUICK_URI_EXPAND("FramelessUtils"),

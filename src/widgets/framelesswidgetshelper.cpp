@@ -43,7 +43,7 @@
 
 FRAMELESSHELPER_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcFramelessWidgetsHelper, "wangwenx190.framelesshelper.widgets.framelesswidgetshelper")
+Q_LOGGING_CATEGORY(lcFramelessWidgetsHelper, "qeist.framelesshelper.widgets.framelesswidgetshelper")
 
 #ifdef FRAMELESSHELPER_WIDGETS_NO_DEBUG_OUTPUT
 #  define INFO QT_NO_QDEBUG_MACRO()
@@ -70,6 +70,7 @@ struct WidgetsHelperData
     QPointer<QWidget> minimizeButton = nullptr;
     QPointer<QWidget> maximizeButton = nullptr;
     QPointer<QWidget> closeButton = nullptr;
+    QList<QPointer<QWidget>> userButtons;
     QList<QRect> hitTestVisibleRects = {};
 };
 
@@ -586,42 +587,50 @@ QRect FramelessWidgetsHelperPrivate::mapWidgetGeometryToScene(const QWidget * co
     return QRect(originPoint, size);
 }
 
-bool FramelessWidgetsHelperPrivate::isInSystemButtons(const QPoint &pos, SystemButtonType *button) const
+bool FramelessWidgetsHelperPrivate::isInSystemButtons(const QPoint &pos, SystemButtonType *buttonType) const
 {
-    Q_ASSERT(button);
-    if (!button) {
+    Q_ASSERT(buttonType);
+    if (!buttonType) {
         return false;
     }
-    *button = SystemButtonType::Unknown;
+    *buttonType = SystemButtonType::Unknown;
     const WidgetsHelperData data = getWindowData();
     if (data.windowIconButton && data.windowIconButton->isVisible() && data.windowIconButton->isEnabled()) {
         if (data.windowIconButton->geometry().contains(pos)) {
-            *button = SystemButtonType::WindowIcon;
+            *buttonType = SystemButtonType::WindowIcon;
             return true;
         }
     }
     if (data.contextHelpButton && data.contextHelpButton->isVisible() && data.contextHelpButton->isEnabled()) {
         if (data.contextHelpButton->geometry().contains(pos)) {
-            *button = SystemButtonType::Help;
+            *buttonType = SystemButtonType::Help;
             return true;
         }
     }
     if (data.minimizeButton && data.minimizeButton->isVisible() && data.minimizeButton->isEnabled()) {
         if (data.minimizeButton->geometry().contains(pos)) {
-            *button = SystemButtonType::Minimize;
+            *buttonType = SystemButtonType::Minimize;
             return true;
         }
     }
     if (data.maximizeButton && data.maximizeButton->isVisible() && data.maximizeButton->isEnabled()) {
         if (data.maximizeButton->geometry().contains(pos)) {
-            *button = SystemButtonType::Maximize;
+            *buttonType = SystemButtonType::Maximize;
             return true;
         }
     }
     if (data.closeButton && data.closeButton->isVisible() && data.closeButton->isEnabled()) {
         if (data.closeButton->geometry().contains(pos)) {
-            *button = SystemButtonType::Close;
+            *buttonType = SystemButtonType::Close;
             return true;
+        }
+    }
+    for (const auto &button : data.userButtons) {
+        if (button && button->isVisible() && button->isEnabled()) {
+            if (button->geometry().contains(pos)) {
+                *buttonType = SystemButtonType::User;
+                return true;
+            }
         }
     }
     return false;
@@ -654,6 +663,11 @@ bool FramelessWidgetsHelperPrivate::isInTitleBarDraggableArea(const QPoint &pos)
     const auto systemButtons = {data.windowIconButton, data.contextHelpButton,
                      data.minimizeButton, data.maximizeButton, data.closeButton};
     for (auto &&button : qAsConst(systemButtons)) {
+        if (button && button->isVisible() && button->isEnabled()) {
+            region -= mapWidgetGeometryToScene(button);
+        }
+    }
+    for (auto &&button : data.userButtons) {
         if (button && button->isVisible() && button->isEnabled()) {
             region -= mapWidgetGeometryToScene(button);
         }
@@ -733,6 +747,12 @@ void FramelessWidgetsHelperPrivate::setSystemButtonState(const SystemButtonType 
             widgetButton = data.closeButton;
         }
         break;
+    case SystemButtonType::User:
+        for (const auto &button : data.userButtons) {
+            if (button) {
+                widgetButton = button;
+            }
+        }
     }
     if (widgetButton) {
         const auto updateButtonState = [state](QWidget *btn) -> void {
@@ -873,6 +893,9 @@ void FramelessWidgetsHelperPrivate::setSystemButton(QWidget *widget, const Syste
         break;
     case SystemButtonType::Close:
         data->closeButton = widget;
+        break;
+    case SystemButtonType::User:
+        data->userButtons.append(widget);
         break;
     }
 }

@@ -1,0 +1,12 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+    "name": "scam-app",
+    "version": "0.2.0",
+    "builtin-baseline": "94ce0dab56f4d8ba6bd631ba59ed682b02d45c46",
+    "dependencies": [
+        {
+            "name": "qtbase",
+            "version>=": "6.3.2"
+        }
+    ]
+}

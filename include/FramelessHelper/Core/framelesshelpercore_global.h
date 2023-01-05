@@ -154,7 +154,7 @@ QT_END_NAMESPACE
 #endif
 
 #ifndef FRAMELESSHELPER_NAMESPACE
-#  define FRAMELESSHELPER_NAMESPACE wangwenx190::FramelessHelper
+#  define FRAMELESSHELPER_NAMESPACE qeist::FramelessHelper
 #endif
 
 #ifndef FRAMELESSHELPER_BEGIN_NAMESPACE
@@ -271,7 +271,8 @@ enum class SystemButtonType
     Minimize = 2,
     Maximize = 3,
     Restore = 4,
-    Close = 5
+    Close = 5,
+    User = 6
 };
 Q_ENUM_NS(SystemButtonType)
 
@@ -623,7 +624,6 @@ FRAMELESSHELPER_CORE_API void uninitialize();
 FRAMELESSHELPER_CORE_API void registerInitializeHook(const Global::InitializeHookCallback &cb);
 FRAMELESSHELPER_CORE_API void registerUninitializeHook(const Global::UninitializeHookCallback &cb);
 FRAMELESSHELPER_CORE_API void setApplicationOSThemeAware();
-FRAMELESSHELPER_CORE_API void outputLogo();
 } // namespace FramelessHelper::Core
 
 FRAMELESSHELPER_END_NAMESPACE

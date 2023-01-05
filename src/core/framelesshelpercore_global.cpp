@@ -114,7 +114,7 @@ QDebug operator<<(QDebug d, const FRAMELESSHELPER_PREPEND_NAMESPACE(Global)::Dpi
 
 FRAMELESSHELPER_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcCoreGlobal, "wangwenx190.framelesshelper.core.global")
+Q_LOGGING_CATEGORY(lcCoreGlobal, "qeist.framelesshelper.core.global")
 
 #ifdef FRAMELESSHELPER_CORE_NO_DEBUG_OUTPUT
 #  define INFO QT_NO_QDEBUG_MACRO()
@@ -164,8 +164,6 @@ void initialize()
         return;
     }
     inited = true;
-
-    outputLogo();
 
 #ifdef Q_OS_LINUX
     gtk_init(nullptr, nullptr);
@@ -365,22 +363,6 @@ void setApplicationOSThemeAware()
     // macOS: Qt 5.12.
     Utils::registerThemeChangeNotification();
 #endif
-}
-
-void outputLogo()
-{
-    if (qEnvironmentVariableIntValue(kNoLogoEnvVar)) {
-        return;
-    }
-    const VersionInfo &ver = version();
-    QString message = {};
-    QTextStream stream(&message, QIODevice::WriteOnly);
-    stream << "FramelessHelper (" << (ver.isStatic ? "static" : "shared")
-           << ", " << (ver.isDebug ? "debug" : "release") << ") version "
-           << ver.version_str << ", author wangwenx190 (Yuhang Zhao)."
-           << " Built by " << ver.compiler << " from " << ver.commit
-           << " on " << ver.compileDateTime << " (UTC).";
-    INFO.nospace().noquote() << message;
 }
 
 }

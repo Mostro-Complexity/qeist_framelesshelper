@@ -26,7 +26,7 @@
 
 FRAMELESSHELPER_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcQuickChromePalette, "wangwenx190.framelesshelper.quick.quickchromepalette")
+Q_LOGGING_CATEGORY(lcQuickChromePalette, "qeist.framelesshelper.quick.quickchromepalette")
 
 #ifdef FRAMELESSHELPER_QUICK_NO_DEBUG_OUTPUT
 #  define INFO QT_NO_QDEBUG_MACRO()

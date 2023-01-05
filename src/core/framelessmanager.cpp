@@ -49,7 +49,7 @@ static inline void initResource()
 
 FRAMELESSHELPER_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcFramelessManager, "wangwenx190.framelesshelper.core.framelessmanager")
+Q_LOGGING_CATEGORY(lcFramelessManager, "qeist.framelesshelper.core.framelessmanager")
 
 #ifdef FRAMELESSHELPER_CORE_NO_DEBUG_OUTPUT
 #  define INFO QT_NO_QDEBUG_MACRO()
@@ -76,7 +76,7 @@ Q_GLOBAL_STATIC(FramelessManagerHelper, g_helper)
 Q_GLOBAL_STATIC(FramelessManager, g_manager)
 
 [[maybe_unused]] static constexpr const char kGlobalFlagVarName[] = "__FRAMELESSHELPER__";
-FRAMELESSHELPER_STRING_CONSTANT2(IconFontFilePath, ":/org.wangwenx190.FramelessHelper/resources/fonts/Micon.ttf")
+FRAMELESSHELPER_STRING_CONSTANT2(IconFontFilePath, ":/org.qeist.FramelessHelper/resources/fonts/Micon.ttf")
 FRAMELESSHELPER_STRING_CONSTANT2(IconFontFamilyName_win11, "Segoe Fluent Icons")
 FRAMELESSHELPER_STRING_CONSTANT2(IconFontFamilyName_win10, "Segoe MDL2 Assets")
 FRAMELESSHELPER_STRING_CONSTANT2(IconFontFamilyName_common, "micon_nb")

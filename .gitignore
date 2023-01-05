@@ -82,3 +82,4 @@ Thumbs.db
 .vscode/
 .vs/
 .cmake.conf
+third_party

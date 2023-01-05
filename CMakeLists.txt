@@ -24,6 +24,19 @@
 
 cmake_minimum_required(VERSION 3.20)
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
+
+set(QT_VERSION_MAJOR 6)
+set(QT_VERSION 6.3.2)
+set(FRAMELESSHELPER_BUILD_STATIC ON)
+set(FRAMELESSHELPER_BUILD_WIDGETS ON)
+set(FRAMELESSHELPER_BUILD_QUICK OFF)
+set(FRAMELESSHELPER_BUILD_EXAMPLES ON)
+set(FRAMELESSHELPER_EXAMPLES_DEPLOYQT OFF)
+set(FRAMELESSHELPER_NO_DEBUG_OUTPUT ON)
+
+include(vcpkg)
+
 project(FramelessHelper
     VERSION 2.3.4.0
     DESCRIPTION "Cross-platform window customization framework for Qt Widgets and Qt Quick."
@@ -31,12 +44,12 @@ project(FramelessHelper
     LANGUAGES CXX
 )
 
-option(FRAMELESSHELPER_BUILD_STATIC "Build FramelessHelper as a static library." OFF)
+option(FRAMELESSHELPER_BUILD_STATIC "Build FramelessHelper as a static library." ON)
 option(FRAMELESSHELPER_BUILD_WIDGETS "Build FramelessHelper's Widgets module." ON)
-option(FRAMELESSHELPER_BUILD_QUICK "Build FramelessHelper's Quick module." ON)
+option(FRAMELESSHELPER_BUILD_QUICK "Build FramelessHelper's Quick module." OFF)
 option(FRAMELESSHELPER_BUILD_EXAMPLES "Build FramelessHelper demo applications." ON)
 option(FRAMELESSHELPER_EXAMPLES_DEPLOYQT "Deploy the Qt framework after building the demo projects." ON)
-option(FRAMELESSHELPER_NO_DEBUG_OUTPUT "Suppress the debug messages from FramelessHelper." OFF)
+option(FRAMELESSHELPER_NO_DEBUG_OUTPUT "Suppress the debug messages from FramelessHelper." ON)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
@@ -73,6 +86,7 @@ if(NOT DEFINED CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 endif()
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
@@ -108,11 +122,9 @@ endif()
 set(PROJECT_COMPILE_DATETIME "UNKNOWN")
 string(TIMESTAMP PROJECT_COMPILE_DATETIME UTC)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network)
 
-find_package(QT NAMES Qt6 Qt5 QUIET COMPONENTS Widgets Quick)
-find_package(Qt${QT_VERSION_MAJOR} QUIET COMPONENTS Widgets Quick)
+find_package(Qt6 QUIET COMPONENTS Widgets Quick)
 
 write_basic_package_version_file(
     "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
@@ -132,7 +144,7 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
 )
 
-if(TARGET Qt${QT_VERSION_MAJOR}::Core AND TARGET Qt${QT_VERSION_MAJOR}::Gui)
+if(TARGET Qt6::Core AND TARGET Qt6::Gui)
     add_subdirectory(src)
 endif()
 

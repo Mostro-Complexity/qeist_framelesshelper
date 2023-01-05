@@ -48,7 +48,7 @@ static inline void initResource()
 
 FRAMELESSHELPER_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcMicaMaterial, "wangwenx190.framelesshelper.core.micamaterial")
+Q_LOGGING_CATEGORY(lcMicaMaterial, "qeist.framelesshelper.core.micamaterial")
 
 #ifdef FRAMELESSHELPER_CORE_NO_DEBUG_OUTPUT
 #  define INFO QT_NO_QDEBUG_MACRO()
@@ -70,7 +70,7 @@ static constexpr const qreal kDefaultBlurRadius = 128.0;
 
 static Q_CONSTEXPR2 const QColor kDefaultSystemLightColor2 = {243, 243, 243}; // #F3F3F3
 
-FRAMELESSHELPER_STRING_CONSTANT2(NoiseImageFilePath, ":/org.wangwenx190.FramelessHelper/resources/images/noise.png")
+FRAMELESSHELPER_STRING_CONSTANT2(NoiseImageFilePath, ":/org.qeist.FramelessHelper/resources/images/noise.png")
 
 struct MicaMaterialData
 {

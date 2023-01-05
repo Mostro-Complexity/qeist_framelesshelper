@@ -105,7 +105,7 @@ function(setup_gui_app arg_target)
     set_target_properties(${arg_target} PROPERTIES
         WIN32_EXECUTABLE TRUE
         MACOSX_BUNDLE TRUE
-        MACOSX_BUNDLE_GUI_IDENTIFIER org.wangwenx190.${arg_target}
+        MACOSX_BUNDLE_GUI_IDENTIFIER org.qeist.${arg_target}
         MACOSX_BUNDLE_BUNDLE_VERSION 1.0.0.0
         MACOSX_BUNDLE_SHORT_VERSION_STRING 1.0
     )

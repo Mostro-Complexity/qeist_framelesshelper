@@ -58,7 +58,7 @@ if(${QT_VERSION} VERSION_GREATER_EQUAL 6.2)
             QtQml/auto
             QtQuick/auto
             QtQuick.Controls.Basic/auto
-            org.wangwenx190.FramelessHelper/auto
+            org.qeist.FramelessHelper/auto
         QML_FILES
             Window.qml
             ApplicationWindow.qml

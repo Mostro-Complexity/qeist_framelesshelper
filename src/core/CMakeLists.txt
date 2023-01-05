@@ -127,7 +127,7 @@ add_library(${PROJECT_NAME}::${SUB_MOD_NAME} ALIAS ${SUB_PROJ_NAME})
 if(${QT_VERSION} VERSION_GREATER_EQUAL 6.2)
     qt_add_resources(${SUB_PROJ_NAME} framelesshelpercore
         PREFIX
-            "/org.wangwenx190.${PROJECT_NAME}"
+            "/org.qeist.${PROJECT_NAME}"
         FILES
             "resources/fonts/Micon.ttf"
             "resources/images/noise.png"

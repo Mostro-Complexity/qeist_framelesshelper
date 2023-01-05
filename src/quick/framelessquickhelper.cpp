@@ -45,7 +45,7 @@
 
 FRAMELESSHELPER_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcFramelessQuickHelper, "wangwenx190.framelesshelper.quick.framelessquickhelper")
+Q_LOGGING_CATEGORY(lcFramelessQuickHelper, "qeist.framelesshelper.quick.framelessquickhelper")
 
 #ifdef FRAMELESSHELPER_QUICK_NO_DEBUG_OUTPUT
 #  define INFO QT_NO_QDEBUG_MACRO()
@@ -72,6 +72,7 @@ struct QuickHelperData
     QPointer<QQuickItem> minimizeButton = nullptr;
     QPointer<QQuickItem> maximizeButton = nullptr;
     QPointer<QQuickItem> closeButton = nullptr;
+    QList<QPointer<QQuickItem>> userButtons = {};
     QList<QRect> hitTestVisibleRects = {};
 };
 
@@ -289,6 +290,9 @@ void FramelessQuickHelperPrivate::setSystemButton(QQuickItem *item, const QuickG
         break;
     case QuickGlobal::SystemButtonType::Close:
         data->closeButton = item;
+        break;
+    case QuickGlobal::SystemButtonType::User:
+        data->userButtons.append(item);
         break;
     }
 }
@@ -726,6 +730,14 @@ bool FramelessQuickHelperPrivate::isInSystemButtons(const QPoint &pos, QuickGlob
             return true;
         }
     }
+    for (const auto btn : data.userButtons) {
+        if (btn && btn->isVisible() && btn->isEnabled()) {
+            if (mapItemGeometryToScene(btn).contains(pos)) {
+                *button = QuickGlobal::SystemButtonType::User;
+                return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -762,6 +774,12 @@ bool FramelessQuickHelperPrivate::isInTitleBarDraggableArea(const QPoint &pos) c
             region -= mapItemGeometryToScene(button);
         }
     }
+    for (const auto button : data.userButton) {
+        if (button && button->isVisible() && button->isEnabled()) {
+            region -= mapItemGeometryToScene(button);
+        }
+    }
+
     if (!data.hitTestVisibleItems.isEmpty()) {
         for (auto &&item : qAsConst(data.hitTestVisibleItems)) {
             if (item && item->isVisible() && item->isEnabled()) {
@@ -847,6 +865,39 @@ void FramelessQuickHelperPrivate::setSystemButtonState(const QuickGlobal::System
         if (data.closeButton) {
             if (const auto btn = qobject_cast<QQuickAbstractButton *>(data.closeButton)) {
                 quickButton = btn;
+            }
+        }
+        break;
+    case QuickGlobal::SystemButtonType::User:
+        for (const auto button : data.userButtons) {
+            if (button && const auto btn = qobject_cast<QQuickAbstractButton *>(button)) {
+                const auto updateButtonState = [state](QQuickAbstractButton *btn) -> void {
+                    Q_ASSERT(btn);
+                    if (!btn) {
+                        return;
+                    }
+                    switch (state) {
+                        case QuickGlobal::ButtonState::Unspecified: {
+                            btn->setPressed(false);
+                            btn->setHovered(false);
+                        } break;
+                        case QuickGlobal::ButtonState::Hovered: {
+                            btn->setPressed(false);
+                            btn->setHovered(true);
+                        } break;
+                        case QuickGlobal::ButtonState::Pressed: {
+                            btn->setHovered(true);
+                            btn->setPressed(true);
+                        } break;
+                        case QuickGlobal::ButtonState::Clicked: {
+                            // Clicked: pressed --> released, so behave like hovered.
+                            btn->setPressed(false);
+                            btn->setHovered(true);
+                            QQuickAbstractButtonPrivate::get(btn)->click();
+                        } break;
+                    }
+                };
+                updateButtonState(btn);
             }
         }
         break;

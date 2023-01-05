@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/org.wangwenx190.FramelessHelper">
+    <qresource prefix="/org.qeist.FramelessHelper">
         <file>resources/fonts/Micon.ttf</file>
         <file>resources/images/noise.png</file>
     </qresource>

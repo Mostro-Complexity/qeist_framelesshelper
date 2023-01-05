@@ -24,7 +24,7 @@
 
 import QtQuick
 import QtQuick.Controls.Basic
-import org.wangwenx190.FramelessHelper
+import org.qeist.FramelessHelper
 import Demo
 
 FramelessApplicationWindow {

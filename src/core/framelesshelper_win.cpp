@@ -55,7 +55,7 @@ Q_LOGGING_CATEGORY(lcFramelessHelperWin, "wangwenx190.framelesshelper.core.impl.
 using namespace Global;
 
 [[maybe_unused]] static constexpr const wchar_t kFallbackTitleBarWindowClassName[] =
-    L"org.wangwenx190.FramelessHelper.FallbackTitleBarWindow\0";
+    L"org.qeist.FramelessHelper.FallbackTitleBarWindow\0";
 FRAMELESSHELPER_BYTEARRAY_CONSTANT2(Win32MessageTypeName, "windows_generic_MSG")
 FRAMELESSHELPER_STRING_CONSTANT(MonitorFromWindow)
 FRAMELESSHELPER_STRING_CONSTANT(GetMonitorInfoW)
@@ -177,6 +177,9 @@ Q_GLOBAL_STATIC(Win32Helper, g_win32Helper)
         if (button != SystemButtonType::Close) {
             data.params.setSystemButtonState(SystemButtonType::Close, defaultButtonState);
         }
+        if (button != SystemButtonType::User) {
+            data.params.setSystemButtonState(SystemButtonType::User, defaultButtonState);
+        }
     };
     const auto hoverButton = [&releaseButtons, &data](const SystemButtonType button) -> void {
         releaseButtons(button);
@@ -219,6 +222,8 @@ Q_GLOBAL_STATIC(Win32Helper, g_win32Helper)
                 return HTZOOM;
             case SystemButtonType::Close:
                 return HTCLOSE;
+            case SystemButtonType::User:
+                return HTCLIENT; // NOTE(siyu): check again
             }
         }
         // Returns "HTTRANSPARENT" to let the mouse event pass through this invisible
@@ -257,6 +262,9 @@ Q_GLOBAL_STATIC(Win32Helper, g_win32Helper)
             break;
         case HTCLOSE:
             hoverButton(SystemButtonType::Close);
+            break;
+        case HTCLIENT:
+            hoverButton(SystemButtonType::User);
             break;
         default:
             releaseButtons(std::nullopt);
@@ -328,6 +336,9 @@ Q_GLOBAL_STATIC(Win32Helper, g_win32Helper)
         case HTCLOSE:
             pressButton(SystemButtonType::Close);
             break;
+        case HTCLIENT:
+            pressButton(SystemButtonType::User);
+            break;
         default:
             break;
         }
@@ -359,6 +370,9 @@ Q_GLOBAL_STATIC(Win32Helper, g_win32Helper)
             break;
         case HTCLOSE:
             clickButton(SystemButtonType::Close);
+            break;
+        case HTCLIENT:
+            clickButton(SystemButtonType::User);
             break;
         default:
             break;

@@ -30,7 +30,7 @@
 
 FRAMELESSHELPER_BEGIN_NAMESPACE
 
-Q_LOGGING_CATEGORY(lcFramelessQuickApplicationWindow, "wangwenx190.framelesshelper.quick.framelessquickapplicationwindow")
+Q_LOGGING_CATEGORY(lcFramelessQuickApplicationWindow, "qeist.framelesshelper.quick.framelessquickapplicationwindow")
 
 #ifdef FRAMELESSHELPER_QUICK_NO_DEBUG_OUTPUT
 #  define INFO QT_NO_QDEBUG_MACRO()

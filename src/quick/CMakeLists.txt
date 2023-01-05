@@ -105,12 +105,12 @@ set(__import_base_dir ${PROJECT_BINARY_DIR}/qml)
 if(DEFINED FRAMELESSHELPER_IMPORT_DIR)
     set(__import_base_dir ${FRAMELESSHELPER_IMPORT_DIR})
 endif()
-set(__import_uri org/wangwenx190/${PROJECT_NAME})
+set(__import_uri org/qeist/${PROJECT_NAME})
 set(__import_dir ${__import_base_dir}/${__import_uri})
 
 if(${QT_VERSION} VERSION_GREATER_EQUAL 6.2)
     qt_add_qml_module(${SUB_PROJ_NAME}
-        URI org.wangwenx190.${PROJECT_NAME}
+        URI org.qeist.${PROJECT_NAME}
         VERSION 1.0
         OUTPUT_DIRECTORY "${__import_dir}"
         IMPORTS

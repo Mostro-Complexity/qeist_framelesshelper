@@ -85,7 +85,7 @@ public:
 
 private:
     Q_NODISCARD QRect mapWidgetGeometryToScene(const QWidget * const widget) const;
-    Q_NODISCARD bool isInSystemButtons(const QPoint &pos, Global::SystemButtonType *button) const;
+    Q_NODISCARD bool isInSystemButtons(const QPoint& pos, Global::SystemButtonType* button) const;
     Q_NODISCARD bool isInTitleBarDraggableArea(const QPoint &pos) const;
     Q_NODISCARD bool shouldIgnoreMouseEvents(const QPoint &pos) const;
     void setSystemButtonState(const Global::SystemButtonType button, const Global::ButtonState state);
